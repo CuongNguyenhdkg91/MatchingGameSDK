@@ -1,7 +1,9 @@
 namespace MatchingGame{
+    using System.Windows.Forms;
     partial class TableGame<T>{
 
-        public bool RuleImp(params T[] selections){
+        public bool RuleImp(GameState<T> GameState){
+            var selections = GameState.Selections;
             if (selections.Length == 4)
             {
                 return Rule4Imp(selections[0],selections[1],selections[2],selections[3]);
@@ -22,10 +24,13 @@ namespace MatchingGame{
         {
             var selections = GameState.Selections;
 
-            foreach (var label in selections)
+            foreach (var selection in selections)
             {
                 // label.ForeColor = label.BackColor;
-                label.ForeColor = Color.Wheat;
+                if (selection is Label label)
+                {
+                    label.ForeColor = Color.Wheat;
+                }
             }
             return true;
         }
@@ -40,9 +45,22 @@ namespace MatchingGame{
             }
             else
             {
-                clickedLabel.ForeColor = Color.BlueViolet;
+                // clickedLabel.ForeColor = Color.BlueViolet;
                 return false;
             }
+        }
+
+        public bool ProcessTimerImp(Timer timer, GameState<T> GameState, params bool[] force){
+            if (force[0] == true){
+                timer.Stop();
+                return true;
+            }
+            if (GameState.SelectionCount == 1)
+            {
+                timer.Start();
+                return false;
+            }
+            return false;
         }
     }
 }

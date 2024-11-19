@@ -19,6 +19,7 @@ namespace MatchingGame{
             public IRule<S> RuleSet{get;set;}
             public ISetState<S> ProcessSelection{get;set;}
             public ISetState<S> Reset{get;set;}
+            public IMechanicTimer<S> ProcessTimer {get;set;}
         }
 
         public IGameLogic<T, S> GameLogic {get;set;}
@@ -29,16 +30,18 @@ namespace MatchingGame{
             public IGameRuleConfig<T, S> GameRuleConfig {get;set;}
             public IGameParams GameParams{get;set;} 
             public S GameState {get;set;}                
-            public IGameMechanics<T, S> GameMechanics => GameMechanicsImp;
-            public Timer timer {get;}
+            public IGameMechanics<T, S> GameMechanics {get;set;}
             public EventHandler PlayEvent => PlayEventImp;
+            public EventHandler TimerEvent => TimerEventImp;            
 
-            public BaseGameMechanics GameMechanicsImp{get;set;}
+            // public BaseGameMechanics GameMechanicsImp{get;set;}
 
             public abstract void StateUseSelection(S GameState, T selection);
             public abstract void StateReset(S GameState);
+            public abstract void PlayEventImp (object? sender, EventArgs e);
+            public abstract void TimerEventImp (object? sender, EventArgs e);            
 
-            public void PlayEventImp (object? sender, EventArgs e)
+/*             public void PlayEventImp (object? sender, EventArgs e)
             {
                 if (sender is T selection)
                 {
@@ -47,38 +50,15 @@ namespace MatchingGame{
                     if (pause)
                     {
                         var check = GameMechanics.CheckSelections(GameRuleConfig.RuleSet, GameState, GameParams);
-                        if (check)
-                        {
-                            timer.Stop();
-                        } else
-                        {
-                            GameRuleConfig.Reset(GameState);
-                        }
+
                         StateReset(GameState);
 
                         // GameMechanics.TimerEvent;
                     }
                 }
-            }           
+            } */           
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public ITestPartial<T> TestPartial{get;set;}
         public class TTestPartial<T>:ITestPartial<T>{

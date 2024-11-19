@@ -7,10 +7,9 @@ namespace MatchingGame{
             public IMechanicInit StartGame{get;}
             public IMechanicState<S, S> PlaySelection => PlaySelectionImp;
             public IMechanicCheck<S, S> CheckSelections{get;}
-            public IMechanicState<T, S> TimerEvent {get;}
-            public Timer timer {get;}                
+            public Timer timer {get;set;}
 
-            public abstract bool SetStateOnSelection(S GameState, IGameParams GameParams);            
+            public abstract bool SetStateOnSelection(S GameState, IGameParams GameParams);  
                  
 
 /*         public void StartGameImp(Timer timer, IGameParams gameParams)
@@ -34,7 +33,7 @@ namespace MatchingGame{
                 
             }
 
-            public bool CheckSelectionsImp (IRule<S> RuleSet, S GameState,  IGameParams p)
+/*             public bool CheckSelectionsImp (IRule<S> RuleSet, S GameState,  IGameParams p)
             {
                 var check = RuleSet(GameState);
                 if (check)
@@ -45,15 +44,8 @@ namespace MatchingGame{
                     GameRuleConfig.Reset(GameState);
                 }
                 return true;
-            }
+            } */
 
-
-
-
-
-
-
-        
 
 /*         public int PlayEvent(int SelectedCount, T selection, Timer timer, IGameParams gameParams, IGameRuleConfig<T> GameRuleConfig)
         {

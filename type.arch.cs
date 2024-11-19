@@ -20,25 +20,27 @@ namespace MatchingGame{
      public delegate void IMechanicInit(Timer timer, IGameParams p);
      public delegate bool IMechanicState<T, S>(ISetState<T> set, S s, IGameParams p);
      public delegate bool IMechanicCheck<T, S>(IRule<T> r, S s,  IGameParams p);
+     public delegate bool IMechanicTimer<S>(Timer timer, S s, params bool[] force);
 
      public interface IGameRuleConfig<T,S> {
           IRule<S> RuleSet{get;}
           ISetState<S> ProcessSelection{get;}
           ISetState<S> Reset{get;}
+          IMechanicTimer<S> ProcessTimer{get;}
      }
 
      public interface IGameMechanics<T, S>{
           IMechanicInit StartGame{get;}
           IMechanicState<S, S> PlaySelection {get;}
           IMechanicCheck<S, S> CheckSelections{get;}
-          IMechanicState<T, S> TimerEvent{get;}
-          Timer timer {get;}          
+          Timer timer {get;set;}    //not set here cannot use GameMechanics.timer
      }
 
 
      public interface IGameLogic<T, S>{
           //add set method later in implemtation if want          
-          EventHandler PlayEvent{get;}
+          EventHandler PlayEvent {get;}
+          EventHandler TimerEvent {get;}
           IGameMechanics<T, S> GameMechanics {get;}
           IGameRuleConfig<T, S> GameRuleConfig {get;}
           S GameState {get;}
