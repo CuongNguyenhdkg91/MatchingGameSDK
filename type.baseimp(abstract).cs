@@ -16,10 +16,9 @@ namespace MatchingGame{
         }
 
         public class TGameRuleConfig: IGameRuleConfig<T,S> {
-            public IRule<S> RuleSet{get;set;}
-            public ISetState<S> ProcessSelection{get;set;}
-            public ISetState<S> Reset{get;set;}
-            public IMechanicTimer<S> ProcessTimer {get;set;}
+            public IRule<T> RuleSet{get;set;}
+            public ISetState<T> ProcessSelection{get;set;}
+            public ISetState<T> Reset{get;set;}
         }
 
         public IGameLogic<T, S> GameLogic {get;set;}
@@ -27,36 +26,44 @@ namespace MatchingGame{
         public abstract class BaseGameLogic: IGameLogic<T,S>
         {
             
-            public IGameRuleConfig<T, S> GameRuleConfig {get;set;}
             public IGameParams GameParams{get;set;} 
-            public S GameState {get;set;}                
+            public IGameRuleConfig<T, S> GameRuleConfig {get;set;}
             public IGameMechanics<T, S> GameMechanics {get;set;}
+            public S GameState {get;set;}
+            public Timer Timer {get;set;}            
             public EventHandler PlayEvent => PlayEventImp;
             public EventHandler TimerEvent => TimerEventImp;            
+            public abstract void StateUseSelection(S GameState, T selection);
+            // public abstract void TimerEventImp (object? sender, EventArgs e);            
 
             // public BaseGameMechanics GameMechanicsImp{get;set;}
 
-            public abstract void StateUseSelection(S GameState, T selection);
-            public abstract void StateReset(S GameState);
-            public abstract void PlayEventImp (object? sender, EventArgs e);
-            public abstract void TimerEventImp (object? sender, EventArgs e);            
 
-/*             public void PlayEventImp (object? sender, EventArgs e)
+            // public abstract void PlayEventImp (object? sender, EventArgs e);
+            public void PlayEventImp (object? sender, EventArgs e)
             {
                 if (sender is T selection)
                 {
                     StateUseSelection(GameState, selection);
-                    var pause = GameMechanics.PlaySelection(GameRuleConfig.ProcessSelection,GameState,GameParams);
-                    if (pause)
+                    var result = GameMechanics.PlaySelection(GameRuleConfig,GameState,GameParams);
+                    if (result.selectionCount == 1){Timer.Start();}
+                    if (result.pause)
                     {
-                        var check = GameMechanics.CheckSelections(GameRuleConfig.RuleSet, GameState, GameParams);
-
-                        StateReset(GameState);
-
-                        // GameMechanics.TimerEvent;
+                        var check = GameMechanics.CheckSelections(GameRuleConfig, GameState, GameParams);
+                        if (check)
+                        {
+                            Timer.Stop();
+                            GameMechanics.NextTurn(GameRuleConfig, GameState, check);
+                        } 
                     }
                 }
-            } */           
+            }
+
+            public void TimerEventImp(object? sender, EventArgs e)
+            {
+                Timer.Stop();
+                GameMechanics.NextTurn(GameRuleConfig, GameState, false);
+            }            
 
         }
 

@@ -10,16 +10,15 @@ namespace MatchingGame{
             BaseGameLogic GameLogicProps = new TableGameLogic
             {
                 GameMechanics = new TableGameMechanics{},
-                GameRuleConfig = new TGameRuleConfig{ProcessSelection=ProcessSelectionImp, Reset=ResetImp, RuleSet=RuleImp, ProcessTimer = ProcessTimerImp},
+                GameRuleConfig = new TGameRuleConfig{ProcessSelection=ProcessSelectionImp, Reset=ResetImp, RuleSet=RuleImp},
                 GameParams = new GameProps{Params = new Props{MaxCount=maxCount, ResetInterval=resetInterval, RuleParams=ruleParams}},
                 GameState = new GameState<Label>()
             };
             GameLogic = GameLogicProps;
-            // MessageBox.Show(GameLogic.GameParams.Params.RuleParams.ToString());
 
             InitializeComponent(); //must after props assigned because the mistake-prone use 'outside' variable in form design context             
-            GameLogic.GameMechanics.timer = timer1;
-            var timer = GameLogic.GameMechanics.timer; //must assign after get method
+            GameLogic.Timer = timer1;
+            var timer = GameLogic.Timer; //must assign after get method
             timer.Interval = GameLogic.GameParams.Params.ResetInterval;
             timer.Tick += GameLogic.TimerEvent;
         }
@@ -44,7 +43,7 @@ namespace MatchingGame{
             // Application.Run(new Form1());
 
            
-            Application.Run(new Game(4,4,850));
+            Application.Run(new Game(4,4,3400));
 
         }
     }    

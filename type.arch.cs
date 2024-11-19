@@ -15,25 +15,24 @@ namespace MatchingGame{
           IParams Params{get;set;}
      }     
 
-     public delegate bool IRule<T>(T t);
+     public delegate bool IRule<T>(T[] t);
      public delegate bool ISetState<T>(T t);
      public delegate void IMechanicInit(Timer timer, IGameParams p);
-     public delegate bool IMechanicState<T, S>(ISetState<T> set, S s, IGameParams p);
-     public delegate bool IMechanicCheck<T, S>(IRule<T> r, S s,  IGameParams p);
-     public delegate bool IMechanicTimer<S>(Timer timer, S s, params bool[] force);
+     public delegate (bool pause, int selectionCount) IMechanicState<C, S>(C config, S s, IGameParams p);
+     public delegate bool IMechanicCheck<C, S>(C config, S s,  IGameParams p);
+     public delegate bool IMechanicTimer<C, S>(C config, S s, params bool[] force);
 
      public interface IGameRuleConfig<T,S> {
-          IRule<S> RuleSet{get;}
-          ISetState<S> ProcessSelection{get;}
-          ISetState<S> Reset{get;}
-          IMechanicTimer<S> ProcessTimer{get;}
+          IRule<T> RuleSet{get;}
+          ISetState<T> ProcessSelection{get;}
+          ISetState<T> Reset{get;}
      }
 
      public interface IGameMechanics<T, S>{
           IMechanicInit StartGame{get;}
-          IMechanicState<S, S> PlaySelection {get;}
-          IMechanicCheck<S, S> CheckSelections{get;}
-          Timer timer {get;set;}    //not set here cannot use GameMechanics.timer
+          IMechanicState<IGameRuleConfig<T,S>, S> PlaySelection {get;}
+          IMechanicCheck<IGameRuleConfig<T,S>, S> CheckSelections{get;}
+          IMechanicTimer<IGameRuleConfig<T,S>, S> NextTurn{get;}
      }
 
 
@@ -44,7 +43,8 @@ namespace MatchingGame{
           IGameMechanics<T, S> GameMechanics {get;}
           IGameRuleConfig<T, S> GameRuleConfig {get;}
           S GameState {get;}
-          IGameParams GameParams{get;}  
+          IGameParams GameParams{get;}
+          Timer Timer {get;set;}    //not set here cannot use GameMechanics.timer          
 
      }
 
