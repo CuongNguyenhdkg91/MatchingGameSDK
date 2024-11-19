@@ -1,14 +1,25 @@
-namespace TableLookGame{
+namespace MatchingGame{
+    using System.Windows.Forms;
 
     public partial class Game: TableGame<Label>
     {
-        
-        public Game()
+        public Game(int maxCount, int ruleParams, int resetInterval)
         {
-            InitializeComponent();
-            // StartGame();
+
+            // TGameLogic GameLogicProps = new TGameLogic(maxCount,ruleParams,resetInterval);
+            BaseGameLogic GameLogicProps = new TableGameLogic
+            {
+                GameMechanicsImp = new TableGameMechanics{},
+                GameRuleConfig = new TGameRuleConfig{ProcessSelection=ProcessSelectionImp, Reset=ResetImp, RuleSet=RuleImp},
+                GameParams = new GameProps{Params = new Props{MaxCount=maxCount, ResetInterval=resetInterval, RuleParams=ruleParams}},
+                GameState = new GameState<Label>()
+            };
+            GameLogic = GameLogicProps;
+            // MessageBox.Show(GameLogic.GameParams.Params.RuleParams.ToString());
+
+            InitializeComponent(); //must after props assigned because the mistake-prone use 'outside' variable in form design context             
         }
-    }    
+    } 
 
     internal static class ProgramXXXX
     {
@@ -19,17 +30,6 @@ namespace TableLookGame{
         [STAThread]
         static void Main()
         {
-/*             TableGame<Label> TableGame1 = new TableGame<Label> {
-                GameParams = 
-                {
-                    MaxCount = 4,
-                    RuleParams = 4,
-                    ResetInterval = 850            
-                }
-            }; */
-
-            // Form1 FormGame = new Form1();
-
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 
@@ -38,17 +38,11 @@ namespace TableLookGame{
 
             // Application.Run(TableGame1);
             // Application.Run(new Form1());
-            Application.Run(new Game());
+
+           
+            Application.Run(new Game(4,4,850));
 
         }
     }    
 }
 
-
-
-                // GameParams = 
-                // {
-                //     MaxCount = 4,
-                //     RuleParams = 4,
-                //     ResetInterval = 850            
-                // }}

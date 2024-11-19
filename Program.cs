@@ -13,7 +13,7 @@ namespace TableLookGame
             // see https://aka.ms/applicationconfiguration.
 
 
-            ApplicationConfiguration.Initialize(); //calibrate the graphic parameter to good
+            // ApplicationConfiguration.Initialize(); //calibrate the graphic parameter to good - why error not exist
 
             Application.Run(new Form1());
             

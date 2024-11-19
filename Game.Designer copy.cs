@@ -1,5 +1,5 @@
 ﻿// namespace MatchingGame
-namespace TableLookGame
+namespace MatchingGame
 {
     partial class Game
     {
@@ -65,11 +65,12 @@ namespace TableLookGame
                 LookingIconsStyle(LookingIcons);
 
                 //add event trigger control 
-                // label.Click += PlayEvent;
+                label.Click += GameLogic.PlayEvent; //problem-prone when using the 'outContext variable', move this to the StartGameImp
+
 
                 //component did mount, no hook so need keep strict order after styling
-
                 // Reset(label);
+                label.ForeColor = label.BackColor; //instead of a hook function
             }
 
             components = new System.ComponentModel.Container();
