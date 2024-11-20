@@ -12,7 +12,7 @@ namespace MatchingGame{
 
             public abstract (bool pause, int selectionCount) PlaySelectionImp (IGameRuleConfig<T,S> GameRuleConfig, S GameState, IGameParams GameParams);            
             public abstract bool CheckSelectionsImp (IGameRuleConfig<T,S> GameRuleConfig, S GameState, IGameParams GameParams);
-            public abstract bool NextTurnImp (IGameRuleConfig<T,S> GameRuleConfig, S GameState, bool[] force);             
+            public abstract bool NextTurnImp (IGameRuleConfig<T,S> GameRuleConfig, S GameState, IGameParams GameParams, bool[] force);             
              
             public abstract bool SetStateOnSelection(S GameState, IGameParams GameParams); 
             public abstract void StateReset(S GameState);            

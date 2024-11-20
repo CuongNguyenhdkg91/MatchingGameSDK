@@ -53,7 +53,7 @@ namespace MatchingGame{
                         if (check)
                         {
                             Timer.Stop();
-                            GameMechanics.NextTurn(GameRuleConfig, GameState, check);
+                            GameMechanics.NextTurn(GameRuleConfig, GameState, GameParams, check);
                         } 
                     }
                 }
@@ -62,7 +62,7 @@ namespace MatchingGame{
             public void TimerEventImp(object? sender, EventArgs e)
             {
                 Timer.Stop();
-                GameMechanics.NextTurn(GameRuleConfig, GameState, false);
+                GameMechanics.NextTurn(GameRuleConfig, GameState, GameParams, false);
             }            
 
         }

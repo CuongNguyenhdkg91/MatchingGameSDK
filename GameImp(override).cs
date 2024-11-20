@@ -53,18 +53,11 @@ namespace MatchingGame{
                 if (check)
                 {
                     GameState.SolveCount += 1;
-                    if (GameState.SolveCount == GameParams.Params.MaxCount)
-                    {
-                            MessageBox.Show("You Win");
-                    }
-                    return true;
-                } else
-                {
-                    return false;
                 }
+                return check;
             }
 
-            public override bool NextTurnImp (IGameRuleConfig<T,GameState<T>> GameRuleConfig, GameState<T> GameState, bool[] force)
+            public override bool NextTurnImp (IGameRuleConfig<T,GameState<T>> GameRuleConfig, GameState<T> GameState, IGameParams GameParams, bool[] force)
             {
                 var selections = GameState.Selections;
 
@@ -82,8 +75,14 @@ namespace MatchingGame{
                         }
                     }
                 }
-                GameState.Locked = false;                    
-                StateReset(GameState);  
+                StateReset(GameState);
+
+                if (GameState.SolveCount == GameParams.Params.MaxCount)
+                {
+                    MessageBox.Show("You Win");
+                }
+
+                GameState.Locked = false;
                 return force[0];                 
             }
             

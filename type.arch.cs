@@ -20,7 +20,7 @@ namespace MatchingGame{
      public delegate void IMechanicInit(Timer timer, IGameParams p);
      public delegate (bool pause, int selectionCount) IMechanicState<C, S>(C config, S s, IGameParams p);
      public delegate bool IMechanicCheck<C, S>(C config, S s,  IGameParams p);
-     public delegate bool IMechanicTimer<C, S>(C config, S s, params bool[] force);
+     public delegate bool IMechanicTimer<C, S>(C config, S s, IGameParams p, params bool[] force);
 
      public interface IGameRuleConfig<T,S> {
           IRule<T> RuleSet{get;}
